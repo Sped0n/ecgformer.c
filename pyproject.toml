@@ -1,0 +1,27 @@
+[project]
+name = "ecgformer"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  "numpy>=2.1.1",
+  "torch>=2.4.1",
+  "torchaudio>=2.4.1",
+  "torchvision>=0.19.1",
+  "tqdm>=4.66.5",
+]
+
+[tool.pyright]
+typeCheckingMode = "strict"
+reportUnknownMemberType = false
+reportAny = false
+reportImplicitOverride = false
+
+[tool.uv]
+dev-dependencies = [
+  "onnx>=1.16.2",
+  "onnxruntime>=1.19.2",
+  "onnxscript>=0.1.0.dev20240911",
+  "onnxsim>=0.4.36",
+]
