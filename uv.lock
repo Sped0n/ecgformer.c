@@ -6,6 +6,24 @@ resolution-markers = [
 ]
 
 [[package]]
+name = "brevitas"
+version = "0.10.2"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "dependencies" },
+    { name = "packaging" },
+    { name = "setuptools" },
+    { name = "sympy" },
+    { name = "torch" },
+    { name = "typing-extensions" },
+    { name = "unfoldnd" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/96/c8/73ddf09c4d7475137470aee37d2424f8af45c33d3f58c13b7f6480ec4b67/brevitas-0.10.2.tar.gz", hash = "sha256:e49c2f1fdd9e69ecdf82bb0f6d205f6100966a8e99fa1e1b345a51acaeafe9bd", size = 518840 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/a3/df/f2964ce9f27b9699a65c9f93900a45c0c5be65a97588c86fb16a6736159e/brevitas-0.10.2-py3-none-any.whl", hash = "sha256:3488129e40496034b406b90ab2f15484527854ed4cecd79d4c07849e8caff1e0", size = 626551 },
+]
+
+[[package]]
 name = "colorama"
 version = "0.4.6"
 source = { registry = "https://pypi.org/simple" }
@@ -27,14 +45,21 @@ wheels = [
 ]
 
 [[package]]
+name = "dependencies"
+version = "2.0.1"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/cb/c8/8d296cc25e199183233f7eb79d8bd80598484491b7200d0a5407af285000/dependencies-2.0.1.tar.gz", hash = "sha256:89f8262059ee6fb7a27f12bc72cec41e4a954a7b6f5ba0b4c902be1495e1cd12", size = 10320 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/a6/b7/d07e44c49429eba1c2eeffbde551a9ea3838c5ab34fafd544999fd4f925e/dependencies-2.0.1-py2.py3-none-any.whl", hash = "sha256:4f2acdafd3f17f20b717e0691f5652d01bb1099f9d851926e7d2913bff299c61", size = 15330 },
+]
+
+[[package]]
 name = "ecgformer"
 version = "0.1.0"
 source = { virtual = "." }
 dependencies = [
+    { name = "brevitas" },
     { name = "numpy" },
-    { name = "onnx" },
-    { name = "onnxscript" },
-    { name = "onnxsim" },
     { name = "torch" },
     { name = "torchaudio" },
     { name = "torchvision" },
@@ -51,10 +76,8 @@ dev = [
 
 [package.metadata]
 requires-dist = [
+    { name = "brevitas", specifier = ">=0.10.2" },
     { name = "numpy", specifier = ">=2.1.1" },
-    { name = "onnx", specifier = ">=1.16.2" },
-    { name = "onnxscript", specifier = ">=0.1.0.dev20240911" },
-    { name = "onnxsim", specifier = ">=0.4.36" },
     { name = "torch", specifier = ">=2.4.1" },
     { name = "torchaudio", specifier = ">=2.4.1" },
     { name = "torchvision", specifier = ">=0.19.1" },
@@ -535,6 +558,15 @@ wheels = [
 ]
 
 [[package]]
+name = "setuptools"
+version = "75.0.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/a7/17/133e1cd1e24373e1898ca3c7330f5c385b46c7091f0451e678f37245591b/setuptools-75.0.0.tar.gz", hash = "sha256:25af69c809d9334cd8e653d385277abeb5a102dca255954005a7092d282575ea", size = 1347819 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/8e/69/f90971743a7cc451b93be8f5eb60b7e506896b7e81e6be6272858b2a9d46/setuptools-75.0.0-py3-none-any.whl", hash = "sha256:791ae94f04f78c880b5e614e560dd32d4b4af5d151bd9e7483e3377846caf90a", size = 1248237 },
+]
+
+[[package]]
 name = "sympy"
 version = "1.13.2"
 source = { registry = "https://pypi.org/simple" }
@@ -650,4 +682,17 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/df/db/f35a00659bc03fec321ba8bce9420de607a1d37f8342eee1863174c69557/typing_extensions-4.12.2.tar.gz", hash = "sha256:1a7ead55c7e559dd4dee8856e3a88b41225abfe1ce8df57b7c13915fe121ffb8", size = 85321 }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/26/9f/ad63fc0248c5379346306f8668cda6e2e2e9c95e01216d2b8ffd9ff037d0/typing_extensions-4.12.2-py3-none-any.whl", hash = "sha256:04e5ca0351e0f3f85c6853954072df659d0d13fac324d0072316b67d7794700d", size = 37438 },
+]
+
+[[package]]
+name = "unfoldnd"
+version = "0.2.2"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "numpy" },
+    { name = "torch" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/2a/b2/632656b717ae87a9f907d1582ea3035b89232026605255c2861d7592ea13/unfoldnd-0.2.2.tar.gz", hash = "sha256:e8fdffeb68bc1b393ddc1b1c87056e0e4616db992e95c7dbc3dc90d564599397", size = 18648 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/e8/15/a219df042db44c0f8707082cc7c69d42094f549ea00d1ad7a8c15051347b/unfoldNd-0.2.2-py3-none-any.whl", hash = "sha256:d57cb69953341a1bb472ea4654c3ef277e4f2ccc28138f72acbb89fa33e2557c", size = 16815 },
 ]
