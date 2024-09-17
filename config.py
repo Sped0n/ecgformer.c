@@ -7,10 +7,10 @@ class ModelConfig:
     signal_length: int = 300
     signal_channels: int = 1
     classes: int = 5
-    embed_size: int = 128
+    embed_size: int = 16
     encoder_layers_num: int = 1
     encoder_heads: int = 4
-    mlp_expansion: int = 2
+    mlp_expansion: int = 1
     dropout: float = 0.1
 
 
@@ -20,7 +20,7 @@ class Config:
     train_proportion: float = 0.8
     dl_batch_size: int = 256
     dl_num_workers: int = 6
-    lr: float = 2e-4
+    lr: float = 8e-4
     weight_decay: float = 1e-4
     epochs: int = 75
     validation_interval: int = 5
