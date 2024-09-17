@@ -92,11 +92,18 @@ class ECGformer(nn.Module):
             ]
         )
         self.classifier = Classifier(embed_size, classes)
-        self.positional_embedding = nn.Parameter(torch.randn(signal_length, embed_size))
+        self.positional_embedding = nn.Embedding(signal_length, embed_size)
 
     def forward(self, x: Tensor) -> Tensor:  # pyright: ignore[reportImplicitOverride]
         x = self.embedding(x)
+
+        positions = (
+            torch.arange(x.size(1), device=x.device).unsqueeze(0).expand(x.size(0), -1)
+        )
+        pos_embed = self.positional_embedding(positions)
+        x = x + pos_embed
+
         for encoder_layer in self.encoder_layers:
-            x = encoder_layer(x + self.positional_embedding)
+            x = encoder_layer(x)
         x = self.classifier(x)
         return x
