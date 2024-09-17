@@ -9,18 +9,12 @@ class Embedding(nn.Module):
         self.linear = nn.Linear(signal_channels, embed_size)
         self.norm = nn.LayerNorm(embed_size)
         self.activation = nn.ReLU()
-        self.cls_token = nn.Parameter(  # technique from Vision Transformer
-            torch.randn(1, 1, embed_size)
-        )
 
     def forward(self, x: Tensor) -> Tensor:  # pyright: ignore[reportImplicitOverride]
         x = self.linear(x)
         x = self.norm(x)
         x = self.activation(x)
-
-        batchsize = x.shape[0]
-        cls_token = self.cls_token.expand(batchsize, -1, -1)
-        return torch.cat([cls_token, x], dim=1)
+        return x
 
 
 class MLP(nn.Module):
@@ -42,13 +36,11 @@ class Classifier(nn.Module):
         super().__init__()  # pyright: ignore[reportUnknownMemberType]
         self.linear1 = nn.Linear(embed_size, embed_size)
         self.norm = nn.LayerNorm(embed_size)
-        self.linear2 = nn.Linear(embed_size, classes)
 
     def forward(self, x: Tensor) -> Tensor:  # pyright: ignore[reportImplicitOverride]
         x = torch.mean(x, dim=1)
-        x = self.linear1(x)
         x = self.norm(x)
-        x = self.linear2(x)
+        x = self.linear1(x)
         return x
 
 
@@ -56,7 +48,7 @@ class EncoderLayer(nn.Module):
     def __init__(self, embed_size: int, heads: int, expansion: int, dropout: float):
         super().__init__()  # pyright: ignore[reportUnknownMemberType]
         self.embed_size = embed_size
-        self.attention = nn.MultiheadAttention(embed_size, heads)
+        self.attention = nn.MultiheadAttention(embed_size, heads, batch_first=True)
         self.norm1 = nn.LayerNorm(embed_size)
         self.dropout1 = nn.Dropout(dropout)
         self.mlp = MLP(embed_size, expansion)
@@ -100,9 +92,7 @@ class ECGformer(nn.Module):
             ]
         )
         self.classifier = Classifier(embed_size, classes)
-        self.positional_embedding = nn.Parameter(
-            torch.randn(signal_length + 1, embed_size)
-        )
+        self.positional_embedding = nn.Parameter(torch.randn(signal_length, embed_size))
 
     def forward(self, x: Tensor) -> Tensor:  # pyright: ignore[reportImplicitOverride]
         x = self.embedding(x)
