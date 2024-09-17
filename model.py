@@ -34,7 +34,7 @@ class MLP(nn.Module):
 class Classifier(nn.Module):
     def __init__(self, embed_size: int, classes: int):
         super().__init__()  # pyright: ignore[reportUnknownMemberType]
-        self.linear1 = nn.Linear(embed_size, embed_size)
+        self.linear1 = nn.Linear(embed_size, classes)
         self.norm = nn.LayerNorm(embed_size)
 
     def forward(self, x: Tensor) -> Tensor:  # pyright: ignore[reportImplicitOverride]
