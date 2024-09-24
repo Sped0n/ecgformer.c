@@ -91,6 +91,7 @@ class QuantECGformer(nn.Module):
         mlp_expansion: int,
         dropout: float,
     ):
+        # TODO: use QuantIdentity to quantize input
         super().__init__()  # pyright: ignore[reportUnknownMemberType]
         self.embedding = QuantEmbedding(signal_channels, embed_size)
         self.encoder_layers = nn.ModuleList(

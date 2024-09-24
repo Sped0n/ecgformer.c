@@ -8,9 +8,8 @@ class ModelConfig:
     signal_channels: int = 1
     classes: int = 5
     embed_size: int = 16
-    encoder_layers_num: int = 1
+    encoder_layers_num: int = 2
     encoder_heads: int = 4
-    mlp_expansion: int = 1
     dropout: float = 0.1
 
 
@@ -18,7 +17,7 @@ class ModelConfig:
 class Config:
     device: Literal["cpu", "cuda", "mps"] = "mps"
     train_proportion: float = 0.8
-    dl_batch_size: int = 256
+    dl_batch_size: int = 512
     dl_num_workers: int = 6
     lr: float = 8e-4
     weight_decay: float = 1e-4

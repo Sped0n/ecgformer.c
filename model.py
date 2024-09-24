@@ -18,11 +18,11 @@ class Embedding(nn.Module):
 
 
 class MLP(nn.Module):
-    def __init__(self, embed_size: int, expansion: int):
+    def __init__(self, embed_size: int):
         super().__init__()
-        self.linear1 = nn.Linear(embed_size, embed_size * expansion)
+        self.linear1 = nn.Linear(embed_size, embed_size)
         self.activation = nn.ReLU()
-        self.linear2 = nn.Linear(embed_size * expansion, embed_size)
+        self.linear2 = nn.Linear(embed_size, embed_size)
 
     def forward(self, x: Tensor) -> Tensor:  # pyright: ignore[reportImplicitOverride]
         x = self.linear1(x)
@@ -45,13 +45,13 @@ class Classifier(nn.Module):
 
 
 class EncoderLayer(nn.Module):
-    def __init__(self, embed_size: int, heads: int, expansion: int, dropout: float):
+    def __init__(self, embed_size: int, heads: int, dropout: float):
         super().__init__()  # pyright: ignore[reportUnknownMemberType]
         self.embed_size = embed_size
         self.attention = nn.MultiheadAttention(embed_size, heads, batch_first=True)
         self.norm1 = nn.LayerNorm(embed_size)
         self.dropout1 = nn.Dropout(dropout)
-        self.mlp = MLP(embed_size, expansion)
+        self.mlp = MLP(embed_size)
         self.norm2 = nn.LayerNorm(embed_size)
         self.dropout2 = nn.Dropout(dropout)
 
@@ -80,28 +80,20 @@ class ECGformer(nn.Module):
         embed_size: int,
         encoder_layers_num: int,
         encoder_heads: int,
-        mlp_expansion: int,
         dropout: float,
     ):
         super().__init__()  # pyright: ignore[reportUnknownMemberType]
         self.embedding = Embedding(signal_channels, embed_size)
         self.encoder_layers = nn.ModuleList(
             [
-                EncoderLayer(embed_size, encoder_heads, mlp_expansion, dropout)
+                EncoderLayer(embed_size, encoder_heads, dropout)
                 for _ in range(encoder_layers_num)
             ]
         )
         self.classifier = Classifier(embed_size, classes)
-        self.positional_embedding = nn.Embedding(signal_length, embed_size)
 
     def forward(self, x: Tensor) -> Tensor:  # pyright: ignore[reportImplicitOverride]
         x = self.embedding(x)
-
-        positions = (
-            torch.arange(x.size(1), device=x.device).unsqueeze(0).expand(x.size(0), -1)
-        )
-        pos_embed = self.positional_embedding(positions)
-        x = x + pos_embed
 
         for encoder_layer in self.encoder_layers:
             x = encoder_layer(x)

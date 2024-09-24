@@ -67,7 +67,6 @@ class Trainer:
             config.model.embed_size,
             config.model.encoder_layers_num,
             config.model.encoder_heads,
-            config.model.mlp_expansion,
             config.model.dropout,
         )
         # optimizer
