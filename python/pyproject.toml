@@ -5,13 +5,16 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
-  "brevitas>=0.10.2",
   "numpy>=2.1.1",
   "onnxoptimizer>=0.3.13",
   "torch>=2.4.1",
   "torchaudio>=2.4.1",
   "torchvision>=0.19.1",
   "tqdm>=4.66.5",
+  "onnx>=1.16.2",
+  "onnxruntime>=1.19.2",
+  "onnxscript>=0.1.0.dev20240911",
+  "onnxsim>=0.4.36",
 ]
 
 [tool.pyright]
@@ -21,10 +24,5 @@ reportAny = false
 reportImplicitOverride = false
 reportMissingTypeStubs = false
 
-[tool.uv]
-dev-dependencies = [
-  "onnx>=1.16.2",
-  "onnxruntime>=1.19.2",
-  "onnxscript>=0.1.0.dev20240911",
-  "onnxsim>=0.4.36",
-]
+[tool.ruff.lint]
+extend-select = ["I", "N", "PERF", "UP"]

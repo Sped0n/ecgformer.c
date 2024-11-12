@@ -17,11 +17,11 @@ class ModelConfig:
 class Config:
     device: Literal["cpu", "cuda", "mps"] = "mps"
     train_proportion: float = 0.8
-    dl_batch_size: int = 512
+    dl_batch_size: int = 256
     dl_num_workers: int = 6
-    lr: float = 8e-4
+    lr: float = 5e-4
     weight_decay: float = 1e-4
-    epochs: int = 75
+    epochs: int = 100
     validation_interval: int = 5
     save_interval: int = 5
     model: ModelConfig = field(default_factory=lambda: ModelConfig())

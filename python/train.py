@@ -13,7 +13,7 @@ from torch.utils.data import DataLoader, Dataset, random_split
 from tqdm import tqdm
 
 from config import Config
-from qmodel import QuantECGformer
+from model import ECGformer
 
 
 class NPYDataset(Dataset[Any]):
@@ -22,7 +22,7 @@ class NPYDataset(Dataset[Any]):
         data_cache: NDArray[np.float32] | None = None
         labels_cache: list[int] = []
         for index, target in enumerate(targets):
-            data: NDArray[np.float32] = np.load(f"./assets/{target}.npy")
+            data: NDArray[np.float32] = np.load(f"../assets/dataset/{target}.npy")
             if data_cache is None:
                 data_cache = data
             else:
@@ -60,14 +60,13 @@ class Trainer:
             pin_memory=True,
         )
         # model
-        self.__model = QuantECGformer(
+        self.__model = ECGformer(
             config.model.signal_length,
             config.model.signal_channels,
             config.model.classes,
             config.model.embed_size,
             config.model.encoder_layers_num,
             config.model.encoder_heads,
-            config.model.mlp_expansion,
             config.model.dropout,
         )
         # optimizer
@@ -84,7 +83,7 @@ class Trainer:
         self.__validation_interval = config.validation_interval
         self.__save_interval = config.save_interval
         self.__start_timestamp = datetime.now().strftime("%Y%m%d%H%M")
-        self.__save_dir = Path(f"./qcheckpoints/{self.__start_timestamp}/")
+        self.__save_dir = Path(f"./checkpoints/{self.__start_timestamp}/")
         # create save directory if not exists
         if not self.__save_dir.exists():
             self.__save_dir.mkdir(parents=True, exist_ok=True)
